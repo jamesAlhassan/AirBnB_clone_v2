@@ -11,6 +11,8 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+from datetime import datetime
+import uuid
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -118,8 +120,45 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         elif args not in HBNBCommand.classes:
-            print("** class doesn't exist")
-            return
+            args = args.split(" ") # split to get class name from arg
+            if args[0] not in HBNBCommand.classes:
+                print("** class doesn't exist")
+                return
+            else:
+                _cls = args[0]
+                args = args[1:]
+                # convert args to dictionary
+                arg_dict = {}
+                for arg in args:
+                    key = arg.split('=')[0]
+                    value = arg.split('=')[1]
+                    # check type of value
+                    if '.' in value:
+                        cast = float
+                    elif '"' in value:
+                        value = value.replace('"', '')
+                        value = value.replace('_', ' ')
+                        cast = str
+                    else:
+                        cast = int
+                    try:
+                        value = cast(value)
+                    except ValueError:
+                        pass
+                    arg_dict[key] = value
+                    
+                # add id, created_at and updated_at
+                arg_dict['id'] = str(uuid.uuid4())
+                arg_dict['created_at'] = datetime.now().isoformat()
+                arg_dict['updated_at'] = datetime.now().isoformat()
+                arg_dict['__class__'] = _cls
+
+                new_instance = HBNBCommand.classes[_cls](**arg_dict)
+                storage.save()
+                print(new_instance.id)
+                storage.save()
+                return
+
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
