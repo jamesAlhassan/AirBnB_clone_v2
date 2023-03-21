@@ -33,14 +33,14 @@ class DBStorage:
         if cls is not None:
             results = self.__session.query(cls).all()
         else:
-
             results = self.__session.query(City).all()
             results += self.__session.query(State).all()
 
         results_dict = {}
         for result in results:
             results_dict[f"{type(result).__name__}.{result.id}"] = result
-            return results_dict
+        
+        return results_dict
 
     def new(self, obj):
         """Adds a new object"""
