@@ -14,6 +14,7 @@ from models.review import Review
 from datetime import datetime
 import uuid
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -74,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -120,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         elif args not in HBNBCommand.classes:
-            args = args.split(" ") # split to get class name from arg
+            args = args.split(" ")
             if args[0] not in HBNBCommand.classes:
                 print("** class doesn't exist")
                 return
@@ -146,7 +147,7 @@ class HBNBCommand(cmd.Cmd):
                     except ValueError:
                         pass
                     arg_dict[key] = value
-                    
+
                 # add id, created_at and updated_at
                 arg_dict['id'] = str(uuid.uuid4())
                 arg_dict['created_at'] = datetime.now().isoformat()
@@ -154,15 +155,13 @@ class HBNBCommand(cmd.Cmd):
                 arg_dict['__class__'] = _cls
 
                 new_instance = HBNBCommand.classes[_cls](**arg_dict)
-                storage.save()
+                new_instance.save()
                 print(new_instance.id)
-                storage.save()
                 return
 
         new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -331,6 +330,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
