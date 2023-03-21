@@ -24,7 +24,20 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
         def all(self, cls=None):
-            pass
+            """query all on the current database"""
+            if cls is not None:
+                results = self.__session.query(cls).all()
+            else:
+                from models.city import City
+                from models.state import State 
+
+                results = self.__session.query(City).all()
+                results += self.__session.query(State).all()
+
+            results_dict = {}
+            for result in results:
+                results_dict[f"{type(result).__name__}.{result.id") = result
+            return results_dict
 
         def new(self, obj):
             """Adds a new object"""
@@ -40,3 +53,13 @@ class DBStorage:
                 return
             else:
                 self.__session.delete(obj)
+
+        def reload(self):
+            """create all tables of dtabase"""
+            from models.city import City
+            form models.city import State
+
+            Base.metadata.create_self(self.__engine)
+            session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            Session = scoped_session(session_factory)
+            self.__session = Session()
