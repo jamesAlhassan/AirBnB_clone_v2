@@ -26,4 +26,17 @@ class DBStorage:
         def all(self, cls=None):
             pass
 
+        def new(self, obj):
+            """Adds a new object"""
+            self.__session.add(obj)
 
+        def save(self):
+            """saves  current db session"""
+            self.__session.commit()
+
+        def delete(self, obj=None):
+            """deletes an object"""
+            if obj:
+                return
+            else:
+                self.__session.delete(obj)
