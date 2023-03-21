@@ -19,3 +19,11 @@ class DBStorage:
 
         self.__engine =
         create_engine(f"mysql+mysqldb://{user}:{password}@{host}/{db}")
+
+        if os.getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(self.__engine)
+
+        def all(self, cls=None):
+            pass
+
+
