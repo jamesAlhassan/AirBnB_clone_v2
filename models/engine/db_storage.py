@@ -3,7 +3,7 @@
 Database storage
 """
 from sqlalchemy import create_engine
-import os import getenv
+from os import getenv
 
 
 class DBStorage:
@@ -17,10 +17,10 @@ class DBStorage:
         host = getenv("HBNB_MYSQL_HOST")
         db = getenv("HBNB_MYSQL_DB")
 
-        self.__engine =
-        create_engine(f"mysql+mysqldb://{user}:{password}@{host}/{db}")
+        self.__engine = create_engine(
+                f"mysql+mysqldb://{user}:{password}@{host}/{db}")
 
-        if os.getenv("HBNB_ENV") == "test":
+        if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
         def all(self, cls=None):
@@ -29,14 +29,14 @@ class DBStorage:
                 results = self.__session.query(cls).all()
             else:
                 from models.city import City
-                from models.state import State 
+                from models.state import State
 
                 results = self.__session.query(City).all()
                 results += self.__session.query(State).all()
 
             results_dict = {}
             for result in results:
-                results_dict[f"{type(result).__name__}.{result.id") = result
+                results_dict[f"{type(result).__name__}.{result.id}"] = result
             return results_dict
 
         def new(self, obj):
@@ -57,9 +57,10 @@ class DBStorage:
         def reload(self):
             """create all tables of dtabase"""
             from models.city import City
-            form models.city import State
+            from models.city import State
 
             Base.metadata.create_self(self.__engine)
-            session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            session_factory = sessionmaker(bind=self.__engine,
+                    expire_on_commit=False)
             Session = scoped_session(session_factory)
             self.__session = Session()
