@@ -21,3 +21,16 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        reviews = relationship("Review", cascade="all, delete-orphan",
+                               backref="place")
+    else:
+        @property
+        def reviews(self):
+            """getter attribute in case of file storage"""
+            review_lst = []
+            if review in models.storage.all(Review):
+                if review.place_id == self.id:
+                    review_lst.append(review)
+            return review_lst
