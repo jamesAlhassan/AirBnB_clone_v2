@@ -10,6 +10,7 @@ from models.base_model import Base
 from models.city import City
 from models.state import State
 from models.user import User 
+from models.place import Place
 
 
 class DBStorage:
@@ -37,6 +38,7 @@ class DBStorage:
             results = self.__session.query(City).all()
             results += self.__session.query(State).all()
             results += self.__session.query(User).all()
+            results += self.__session.query(Place).all()
 
         results_dict = {}
         for result in results:
