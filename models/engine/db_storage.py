@@ -4,15 +4,21 @@ Database storage
 """
 from sqlalchemy import create_engine
 from os import getenv
-from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
 from models.state import State
-from models.user import User 
+from models.user import User
 from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
+
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    from models.place import place_amenity
+
+classes = {"User": User, "State": State, "City": City,
+           "Amenity": Amenity, "Place": Place, "Review": Review}
+
 
 class DBStorage:
     __engine = None
@@ -45,13 +51,19 @@ class DBStorage:
 
         results_dict = {}
         for result in results:
-            results_dict[f"{type(result).__name__}.{result.id}"] = result
-        
+            key = f"{result.__class__.__name__}.{result.id}"
+            results_dict[key] = result
         return results_dict
 
     def new(self, obj):
         """Adds a new object"""
-        self.__session.add(obj)
+        if obj is not None:
+            self.__session.add(obj)
+            self.__session.flush()
+            self.__session.refresh(obj)
+        except Exception as ex:
+            self.__session.rollback()
+            raise ex
 
     def save(self):
         """saves  current db session"""
@@ -59,16 +71,18 @@ class DBStorage:
 
     def delete(self, obj=None):
         """deletes an object"""
-        if obj:
-            return
-        else:
-            self.__session.delete(obj)
+        if obj is not None:
+            self.__session.query(type(obj)).filter(
+                    type(obj).id == obj.id).delete()
 
     def reload(self):
         """create all tables of dtabase"""
-
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """closes the working SQLAlchemy session"""
+        self.__session.close()
