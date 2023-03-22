@@ -1,9 +1,23 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+import models
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from os import getenv
 from sqlalchemy.orm import relationship
+
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id',
+                                 String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id',
+                                 String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True,
+                                 nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -21,10 +35,15 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", cascade="all, delete-orphan",
                                backref="place")
+        amenities = relationship("Amenity",
+                                 secondary=place_amenity,
+                                 viewonly=False,
+                                 backref="place_amenities")
     else:
         @property
         def reviews(self):
@@ -34,3 +53,15 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     review_lst.append(review)
             return review_lst
+
+        @property
+        def amenities(self):
+            """attribute that returns list of Amenity instances"""
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, instance=None):
+            """Setter for the amenities property"""
+            if type(instance) is Amenity:
+                if instance.place_amenity.place_id == self.id:
+                    self.amenity_ids.append(instance.id)
