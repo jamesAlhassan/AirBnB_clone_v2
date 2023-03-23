@@ -39,31 +39,30 @@ class DBStorage:
 
     def all(self, cls=None):
         """query all on the current database"""
-        if cls is not None:
-            results = self.__session.query(cls).all()
+        dct = {}
+        if cls is None:
+            for c in classes.values():
+                objs = self.__session.query(c).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    dct[key] = obj
         else:
-            results = self.__session.query(City).all()
-            results += self.__session.query(State).all()
-            results += self.__session.query(User).all()
-            results += self.__session.query(Place).all()
-            results += self.__session.query(Review).all()
-            results += self.__session.query(Amenity).all()
-
-        results_dict = {}
-        for result in results:
-            key = f"{result.__class__.__name__}.{result.id}"
-            results_dict[key] = result
-        return results_dict
+            objs = self.__session.query(cls).all()
+            for obj in objs:
+                key = obj.__class__.__name__ + '.' + obj.id
+                dct[key] = obj
+        return dct
 
     def new(self, obj):
         """Adds a new object"""
         if obj is not None:
-            self.__session.add(obj)
-            self.__session.flush()
-            self.__session.refresh(obj)
-        except Exception as ex:
-            self.__session.rollback()
-            raise ex
+            try:
+                self.__session.add(obj)
+                self.__session.flush()
+                self.__session.refresh(obj)
+            except Exception as ex:
+                self.__session.rollback()
+                raise ex
 
     def save(self):
         """saves  current db session"""
