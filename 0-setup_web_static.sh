@@ -10,11 +10,11 @@ then
 fi
 
 # check and create directories
-[ ! -d "/data/" ] && sudo mkdir /data/
-[ ! -d "/data/web_static/" ] && sudo mkdir /data/web_static/
-[ ! -d "/data/web_static/releases/" ] && sudo mkdir /data/web_static/releases/
-[ ! -d "/data/web_static/shared/" ] && sudo mkdir /data/web_static/shared/
-[ ! -d "/data/web_static/releases/test" ] && sudo mkdir /data/web_static/releases/test/
+sudo mkdir -p /data/
+sudo mkdir -p /data/web_static/
+sudo mkdir -p /data/web_static/releases/
+sudo mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
 
 # create index.html file and add html content
 sudo touch /data/web_static/releases/test/index.html
@@ -22,7 +22,7 @@ sudo echo "<html>
 	<head>
 	</head>
 	<body>
-		Welcome to my Webserver
+		Holberton School
 	</body>
 </html>" | sudo tee /data/web_static/releases/test/index.html
 
