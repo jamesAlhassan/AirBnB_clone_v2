@@ -2,12 +2,9 @@
 # script sets up web servers for deployment of web_static
 
 # Check for nginx. If not installed, install and configure
-if ! command -v nginx &> /dev/null
-then
-	sudo apt-get update;
-	sudo apt-get install nginx;
-	sudo ufw allow 'Nginx HTTP'
-fi
+sudo apt-get update;
+sudo apt-get install nginx;
+sudo ufw allow 'Nginx HTTP'
 
 # check and create directories
 sudo mkdir -p /data/
