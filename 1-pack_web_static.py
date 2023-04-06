@@ -9,7 +9,7 @@ from datetime import datetime as dt
 def do_pack():
     ''' archive generator func'''
     now = dt.now()
-    name = now.st('%Y%m%d%H%M%S')
+    name = st('%Y%m%d%H%M%S')
 
     try:
         local('mkdir -p versions')
