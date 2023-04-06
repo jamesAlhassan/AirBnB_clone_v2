@@ -23,3 +23,6 @@ sudo echo "<html>
   </body>
 </html>"  | sudo tee data/web_static/releases/test/index.html
 
+#symlink
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+
