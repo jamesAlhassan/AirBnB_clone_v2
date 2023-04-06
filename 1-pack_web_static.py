@@ -17,4 +17,3 @@ def do_pack():
         return f'versions/web_static_{date}.tgz'
     except Exception:
         return None
-
