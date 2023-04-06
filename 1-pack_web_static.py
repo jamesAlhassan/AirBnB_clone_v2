@@ -6,10 +6,9 @@ from datetime import datetime as dt
 
 def do_pack():
     ''' archive generator func'''
-
-    date = dt.strftime("%Y%m%d%H%M%S")
-
     try:
+
+        date = dt.now().strftime("%Y%m%d%H%M%S")
         local("mkdir -p versions")
 
         local(f"tar -czvf versions/web_static_{date}.tgz web_static/")
