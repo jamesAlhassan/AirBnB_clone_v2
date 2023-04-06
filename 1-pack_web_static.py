@@ -7,8 +7,7 @@ from datetime import datetime as dt
 
 def do_pack():
     ''' archive generator func'''
-    now = dt.now()
-    name = now.strftime("%Y%m%d%H%M%S")
+    name = strftime("%Y%m%d%H%M%S")
 
     try:
         local("mkdir -p versions")
