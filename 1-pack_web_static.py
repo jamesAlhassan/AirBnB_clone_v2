@@ -11,7 +11,7 @@ def do_pack():
         local("mkdir -p versions")
         local(f"tar -czvf versions/web_static_{name}.tgz web_static/")
 
-        return f"versions/web_static_{name}.tgz")
+        return f("versions/web_static_{name}.tgz")
 
     except Exception as e:
         return None
