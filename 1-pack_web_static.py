@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 # generates a .tgz archive from the contents of the web_static folder
-
 from fabric.api import local
-from time import strftime as st
+from time import strftime
 from datetime import datetime as dt
 
 
 def do_pack():
     ''' archive generator func'''
     now = dt.now()
-    name = now.st('%Y%m%d%H%M%S')
+    name = now.strftime('%Y%m%d%H%M%S')
 
     try:
         local('mkdir -p versions')
