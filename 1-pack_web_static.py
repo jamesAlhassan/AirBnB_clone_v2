@@ -13,7 +13,7 @@ def do_pack():
     try:
         local("mkdir -p versions")
 
-        local(f"tar -cfvz versions/web_static_{name}.tgz web_static/")
+        local(f"tar -czvf versions/web_static_{name}.tgz web_static/")
 
         return f'versions/web_static_{name}.tgz'
     except Exception:
