@@ -9,6 +9,11 @@ def do_pack():
     now = dt.now()
     name = now.st('%Y%m%d%H%M%S')
 
-    local('mkdir -p versions')
+    try:
+        local('mkdir -p versions')
 
-    local(f'tar -cfvz versions/web_static_{name}.tgz')
+        local(f'tar -cfvz versions/web_static_{name}.tgz')
+
+        return f'versions/web_static_{name}.tgz'
+    except Exception:
+        return None
