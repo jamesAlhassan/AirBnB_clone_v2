@@ -12,3 +12,14 @@ sudo mkdir -p /data/web_static/
 sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
 sudo mkdir -p /data/web_static/releases/test/
+
+#index.html using tee as sudo doesn't redirect
+sudo touch /data/web_static/releases/test/index.html
+sudo echo "<html>
+  <head>
+  </head>
+  <body>
+    <h1> Devops is Fun </h1>
+  </body>
+</html>"  | sudo tee data/web_static/releases/test/index.html
+
