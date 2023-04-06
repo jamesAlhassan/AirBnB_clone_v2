@@ -11,3 +11,4 @@ def do_pack():
 
     local('mkdir -p versions')
 
+    local(f'tar -cfvz versions/web_static_{name}.tgz')
