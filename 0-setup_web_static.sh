@@ -26,3 +26,5 @@ sudo echo "<html>
 #symlink
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
+#change ownership to ubuntu
+sudo chown -R ubuntu:ubuntu /data/
