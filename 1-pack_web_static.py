@@ -8,12 +8,12 @@ from datetime import datetime as dt
 def do_pack():
     ''' archive generator func'''
     now = dt.now()
-    name = now.strftime('%Y%m%d%H%M%S')
+    name = now.strftime("%Y%m%d%H%M%S")
 
     try:
-        local('mkdir -p versions')
+        local("mkdir -p versions")
 
-        local(f'tar -cfvz versions/web_static_{name}.tgz web_static/')
+        local(f"tar -cfvz versions/web_static_{name}.tgz web_static/")
 
         return f'versions/web_static_{name}.tgz'
     except Exception:
