@@ -3,7 +3,7 @@
 
 # Check for nginx. If not installed, install and configure
 sudo apt-get update;
-sudo apt-get install nginx;
+sudo apt-get -y install nginx;
 sudo ufw allow 'Nginx HTTP'
 
 # check and create directories
