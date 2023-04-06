@@ -9,8 +9,8 @@ def do_pack():
     ''' archive generator func'''
     local("sudo mkdir -p versions")
     date = dt.now().strftime("%Y%m%d%H%M%S")
-    filename = "versions/web_static_{}.tgz".format(date)
-    result = local("sudo tar -cvzf {} web_static".format(filename))
+    filename = f"versions/web_static_{date}.tgz"
+    result = local("sudo tar -cvzf {filename} web_static")
     if result.succeeded:
         return filename
     else:
