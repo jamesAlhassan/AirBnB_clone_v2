@@ -13,3 +13,8 @@ def do_deploy(archive_path):
     file = (archive_path.split('/')[-1]).split('.')[0]
     path = '/data/web_static/releases/' + "{}".format(file)
     tmp = '/tmp/' + file
+
+    put(archive_path, '/tmp/')
+    run('mkdir -p {}/'.format(path))
+    run('tar -xzf {} -C {}/'.format(tmp, path))
+    run('rm {}'.format(tmp))
