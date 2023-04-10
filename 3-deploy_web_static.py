@@ -10,7 +10,7 @@ env.hosts = ["100.25.22.118", "52.90.13.68"]
 
 
 def do_pack():
-    """Create a tar gzipped archive of the directory web_static."""
+    """tar gzip archive web_static directory"""
     dt = d.utcnow()
     file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year,
                                                          dt.month,
@@ -26,3 +26,21 @@ def do_pack():
         return None
 
     return file
+
+
+def do_deploy(archive_path):
+    ''' Archive Distribution '''
+
+    if os.path.isfile(archive_path) is False:
+        return False
+    file = archive_path.split("/")[-1]
+    name = file.split(".")[0]
+
+    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
