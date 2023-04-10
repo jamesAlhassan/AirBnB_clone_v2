@@ -6,27 +6,41 @@ from os.path import exists
 
 
 env.hosts = ["100.25.22.118", "52.90.13.68"]
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
-    '''distributes an archive to your web servers, using do_deploy '''
-    if exists(archive_path) is False:
-        rerurn False
-    file = (archive_path.split('/')[-1]).split('.')[0]
-    path = '/data/web_static/releases/' + "{}".format(file)
-    tmp = '/tmp/' + file
-
+    """ web files to server """
     try:
-        put(archive_path, "/tmp/")
-        run("sudo mkdir -p {}/".format(path))
-        run("sudo tar -xzf {} -C {}/".format(tmp, path))
-        run("sudo rm {}".format(tmp))
-        run("sudo mv {}/web_static/* {}/".format(path, path))
-        run("sudo rm -rf {}/web_static".format(path))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {}/ /data/web_static/current".format(path))
+        if not (path.exists(archive_path)):
+            return False
 
-        return True
+        put(archive_path, '/tmp/')
+
+        timestamp = archive_path[-18:-4]
+        run('sudo mkdir -p /data/web_static/\
+                    releases/web_static_{}/'.format(timestamp))
+
+        run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
+/data/web_static/releases/web_static_{}/'
+            .format(timestamp, timestamp))
+
+        run('sudo rm /tmp/web_static_{}.tgz'.format(timestamp))
+
+        run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
+/data/web_static/releases/web_static_{}/'.format(timestamp, timestamp))
+
+        run('sudo rm -rf /data/web_static/releases/\
+web_static_{}/web_static'
+            .format(timestamp))
+
+        run('sudo rm -rf /data/web_static/current')
+
+        run('sudo ln -s /data/web_static/releases/\
+web_static_{}/ /data/web_static/current'.format(timestamp))
 
     except:
         return False
+
+    return True
