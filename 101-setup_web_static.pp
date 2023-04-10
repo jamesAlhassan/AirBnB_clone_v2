@@ -48,3 +48,20 @@ package { 'nginx':
   ensure  => 'present',
   content => "this webpage is found in data/web_static/releases/test/index.htm \n"
 }
+
+-> file { '/data/web_static/current':
+  ensure => 'link',
+  target => '/data/web_static/releases/test'
+}
+
+-> exec { 'chown -R ubuntu:ubuntu /data/':
+  path => '/usr/bin/:/usr/local/bin/:/bin/'
+}
+
+file { '/var/www':
+  ensure => 'directory'
+}
+
+-> file { '/var/www/html':
+  ensure => 'directory'
+}
