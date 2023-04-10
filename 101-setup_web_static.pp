@@ -65,3 +65,22 @@ file { '/var/www':
 -> file { '/var/www/html':
   ensure => 'directory'
 }
+
+-> file { '/var/www/html/index.html':
+  ensure  => 'present',
+  content => "This is my first upload  in /var/www/index.html***\n"
+}
+
+-> file { '/var/www/html/404.html':
+  ensure  => 'present',
+  content => "Ceci n'est pas une page - Error page\n"
+}
+
+-> file { '/etc/nginx/sites-available/default':
+  ensure  => 'present',
+  content => $nginx_conf
+}
+
+-> exec { 'nginx restart':
+  path => '/etc/init.d/'
+}
