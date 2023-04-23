@@ -49,3 +49,10 @@ You are not allowed to use !important or id (#... in the CSS file)
 All tags must be in uppercase
 Current screenshots have been done on Chrome 56.0.2924.87.
 No cross browsers
+
+0-hello_route.py - Write a script that starts a Flask web application:
+
+Your web application must be listening on 0.0.0.0, port 5000
+Routes:
+/: display “Hello HBNB!”
+You must use the option strict_slashes=False in your route definition
