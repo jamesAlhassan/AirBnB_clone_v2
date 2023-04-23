@@ -41,7 +41,7 @@ def isNum(n):
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
-def numTemplate(n):
+def numTemplate(n=None):
     '''Renders template "5-number.html" if n is an int'''
     if isinstance(n, int):
         return render_template("5-number.html", num=n)
