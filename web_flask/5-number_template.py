@@ -40,7 +40,7 @@ def isNum(n):
         return "{} is a number".format(n)
 
 
-@app.route("/number_template/<int:n>")
+@app.route("/number_template/<int:n>", strict_slashes=False)
 def numTemplate(n=None):
     '''Renders template "5-number.html" if n is an int'''
     if isinstance(n, int):
