@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class State"""
+""" Contains class State"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """Representation of state """
+    """ state class"""
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'states'
         name = Column(String(128),
