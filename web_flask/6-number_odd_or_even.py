@@ -42,14 +42,18 @@ def isNum(n):
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def numTemplate(n=None):
-    '''Renders template "5-number.html" if n is an int'''
+    '''Renders template 5-number.html
+    if n is an int
+    '''
     if isinstance(n, int):
         return render_template("5-number.html", num=n)
 
 
 @app.route("/number_odd_or_even/<int:n>")
 def display_even_odd(n=None):
-    '''Renders template 6-number_odd_or_even if n is int and odd/ even'''
+    '''Renders template 6-number_odd_or_even 
+    if n is int and odd/ even
+    '''
     if isinstance(n, int):
         if (n % 2 == 0):
             return render_template("6-number_odd_or_even.html",
