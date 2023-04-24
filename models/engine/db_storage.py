@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Database storage engine using SQLAlchemy with a mysql+mysqldb database
-connection.
+"""DB storage engine using SQLAlchemy with  mysql+mysqldb db
+connection
 """
 
 import os
@@ -24,7 +24,7 @@ name2class = {
 
 
 class DBStorage:
-    """Database Storage"""
+    """DB Storage"""
     __engine = None
     __session = None
 
@@ -40,7 +40,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """returns a dictionary of all the objects present"""
+        """returns  dictionary of all  objects available"""
         if not self.__session:
             self.reload()
         objects = {}
@@ -56,7 +56,7 @@ class DBStorage:
         return objects
 
     def reload(self):
-        """reloads objects from the database"""
+        """reloads objects from the db"""
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         Base.metadata.create_all(self.__engine)
