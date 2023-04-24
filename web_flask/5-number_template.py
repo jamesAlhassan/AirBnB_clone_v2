@@ -47,12 +47,5 @@ def number_template(n=None):
         return render_template("5-number.html", n=n)
 
 
-'''@app.route("/number_template/<int:n>", strict_slashes=False)
-def numTemplate(n=None):
-    '''Renders template "5-number.html" if n is an int'''
-    if isinstance(n, int):
-        return render_template("5-number.html", num=n)
-'''
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=None)
