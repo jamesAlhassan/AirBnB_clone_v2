@@ -1,4 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+''' starts a Flask web application
+with host "0.0.0.0" and port "5000"
+'''
+
 from flask import Flask, render_template
 
 app = Flask("__name__")
