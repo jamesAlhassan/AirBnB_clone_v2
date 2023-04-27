@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Starts Flask web app listening on 0.0.0.0, port 5000"""
+'''starts a Flask web application
+with host "0.0.0.0" and port "5000"
+'''
 from flask import Flask, render_template
 
 
@@ -8,20 +10,20 @@ app.url_map.strict_slashes = False
 
 
 @app.route('/')
-def hello():
-    """route to print out a text"""
+def greet():
+    ''' Greets Hello HBNB! on /'''
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb')
 def hbnb():
-    """displays HBNB"""
+    """displays HBNB on /hbnb"""
     return "HBNB"
 
 
 @app.route("/c/<text>")
 def c_text(text):
-    """Displays "C" followed by the value of text"""
+    """Displays "C" followed by the value of text on /c/text"""
     return "C {}".format(text.replace("_", " "))
 
 
@@ -44,7 +46,7 @@ def display_n(n):
 
 @app.route("/number_template/<int:n>")
 def display_html(n=None):
-    """Displays a HTML page only if n is an integer"""
+    """Renders a HTML page only if n is an integer"""
     if isinstance(n, int):
         return render_template("5-number.html", n=n)
 
